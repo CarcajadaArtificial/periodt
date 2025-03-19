@@ -6,6 +6,10 @@
 
 ## Version History
 
+### v0.0.11
+
+- Added an example in the project's readme.
+
 ### v0.0.10
 
 - Added documentation for all functions.
