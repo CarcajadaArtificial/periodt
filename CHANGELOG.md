@@ -2,13 +2,19 @@
 
 ## Working on
 
--
+- Make the periodt function exportable.
+- Make the periodt function not console log but instead return the ordered grid.
 
 ### Next up
 
 -
 
 ## Version History
+
+### v0.0.3
+
+- Added the periodic table making functionality.
+- Added the .gitignore file.
 
 ### v0.0.2
 

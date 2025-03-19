@@ -1,6 +1,12 @@
 {
   "name": "@carcajada/periodt",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
-  "exports": "./mod.ts"
+  "exports": "./mod.ts",
+  "tasks": {
+    "start": "deno run -A --watch mod.ts"
+  },
+  "imports": {
+    "@ktc/tilelib-2d": "jsr:@ktc/tilelib-2d@^0.2.2"
+  }
 }
