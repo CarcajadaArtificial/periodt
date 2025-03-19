@@ -6,6 +6,10 @@
 
 ## Version History
 
+### v0.0.12
+
+- Added functions for smaller arrays of characters.
+
 ### v0.0.11
 
 - Added an example in the project's readme.

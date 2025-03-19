@@ -4,10 +4,6 @@
 //  |_| \___|_| |_\___/\__,_|\__|
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * Groups entities into a shape that superficially resembles a periodic table.
- * @module
- */
 import { Grid, Position } from "@ktc/tilelib-2d";
 
 /**
@@ -20,10 +16,10 @@ import { Grid, Position } from "@ktc/tilelib-2d";
 export function periodt(chars: string[]): Grid<string> {
   const sortedGroups = sortAndGroupChars(chars);
   const randomizedChars = shuffleGroups(sortedGroups);
-  const { totalCols, numRows } = computeGridDimensions(randomizedChars.length);
-  const layout = buildLayout(numRows, totalCols);
-  const grid = fillGrid(randomizedChars, layout, totalCols, numRows);
-  compressColumns(grid, layout, totalCols, numRows);
+  const cols = Math.round(Math.sqrt(randomizedChars.length * 5));
+  const rows = Math.round(cols / 3);
+  const layout = buildLayout(rows, cols);
+  const grid = fillGrid(randomizedChars, layout, cols, rows);
   return grid;
 }
 
@@ -66,22 +62,6 @@ function shuffleGroups(groups: string[][]): string[] {
     [groups[i], groups[j]] = [groups[j], groups[i]];
   }
   return groups.flat();
-}
-
-/**
- * Computes the dimensions of the grid based on the total number of characters.
- *
- * @param {number} total - The total number of characters to arrange.
- * @returns {{ totalCols: number; numRows: number }} An object containing the total columns and number of rows.
- */
-function computeGridDimensions(
-  total: number,
-): { totalCols: number; numRows: number } {
-  let totalCols: number = Math.floor(total / 5);
-  let numRows: number = Math.floor(total / 13);
-  totalCols = totalCols < 10 ? 10 : totalCols;
-  numRows = numRows < 3 ? 3 : numRows;
-  return { totalCols, numRows };
 }
 
 /**
@@ -161,58 +141,25 @@ function fillGrid(
 }
 
 /**
- * Compresses the columns of the grid to remove empty spaces.
- *
- * @param {Grid<string>} grid - The grid to be compressed.
- * @param {boolean[][]} layout - The layout of the grid indicating filled positions.
- * @param {number} totalCols - The total number of columns in the grid.
- * @param {number} numRows - The total number of rows in the grid.
- */
-function compressColumns(
-  grid: Grid<string>,
-  layout: boolean[][],
-  totalCols: number,
-  numRows: number,
-): void {
-  for (let c = 0; c < totalCols; c++) {
-    let r = 0;
-    while (r < numRows) {
-      if (layout[r][c]) {
-        const segStart: number = r;
-        const segLetters: string[] = [];
-        while (r < numRows && layout[r][c]) {
-          const pos = new Position(c, r);
-          segLetters.push(grid.get(pos) || " ");
-          r++;
-        }
-        for (let i = 0; i < segLetters.length; i++) {
-          grid.set(new Position(c, segStart + i), segLetters[i]);
-        }
-        for (let i = segLetters.length; i < r - segStart; i++) {
-          grid.set(new Position(c, segStart + i), " ");
-        }
-      } else {
-        r++;
-      }
-    }
-  }
-}
-
-/**
  * Logs the contents of the grid to the console.
  *
  * @param {Grid<string>} grid - The grid to be logged.
  */
-export function logGrid(grid: Grid<string>): void {
+export function logGrid(grid: Grid<string>, originalCount: number): void {
   const numRows = grid.height;
   const totalCols = grid.width;
+  let characterCount = 0;
 
   for (let r = 0; r < numRows; r++) {
     let rowStr = "";
     for (let c = 0; c < totalCols; c++) {
       const pos = new Position(c, r);
-      rowStr += (grid.get(pos) || " ").toString().padEnd(3, " ");
+      const char = grid.get(pos) || " ";
+      rowStr += char.toString().padEnd(3, " ");
+      if (char !== " ") characterCount++; // Count non-empty characters
     }
     console.log(rowStr);
   }
+
+  console.log(characterCount === originalCount); // Output true or false
 }
