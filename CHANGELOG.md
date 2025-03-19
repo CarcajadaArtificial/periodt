@@ -11,6 +11,10 @@
 
 ## Version History
 
+### v0.0.4
+
+- Added a fix for the GitHub actions publish workflow.
+
 ### v0.0.3
 
 - Added the periodic table making functionality.
