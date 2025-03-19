@@ -2,14 +2,17 @@
 
 ## Working on
 
-- Make the periodt function exportable.
-- Make the periodt function not console log but instead return the ordered grid.
-
-### Next up
-
--
+- Include proper jsdoc comments for functions
 
 ## Version History
+
+### v0.0.9
+
+- Added a fix for the GitHub actions publish workflow.
+- Added the following functions for refactoring the main behavior
+  `sortAndGroupChars()`, `shuffleGroups()`, `computeGridDimensions()`,
+  `buildLayout()`, `createRowLayout()`, `fillGrid()`, `compressColumns()`.
+- Added the test module.
 
 ### v0.0.7
 
