@@ -10,23 +10,28 @@ Groups entities into a shape that superficially resembles a periodic table.
 Run `deno add jsr:@carcajada/periodt` to install.
 
 ```ts
-import { logGrid, periodt } from "./mod.ts";
+import { periodt } from "./mod.ts";
 
 const characters =
   "AFCDABFEAFBDACFEAFCDAFBAEFDAFCBAFEDAFCBAFEADFCABFEAFEDACFBAFDCABFEAFBCAFEDAFCBAFDEABFCAFEDAFBCAFDEAF".split(
     ""
   );
 
-logGrid(periodt(characters));
+periodt<string>(
+  characters,
+  (item) => item,
+  () => "",
+  false
+);
 
 // Outputs
 /*
-E  E                                                  B  C
-E  E                                            A  B  B  C
-E  E  D  D  F                                A  A  B  C  C
-E  E  D  D  F  F  F  F  F  F  F  A  A  A  A  A  B  B  C  C
-E  E  D  D  F  F  F  F  F  F  A  A  A  A  A  A  B  B  C  C
-E  D  D  D  F  F  F  F  F  F  A  A  A  A  A  A  B  B  C  C
-E  D  D  D  F  F  F  F  F  F  A  A  A  A  A  A  B  B  C  C
+F  F                                                        D
+F  F                                                  B  D  D
+F  F  F  F  F                                      B  B  D  D
+F  F  F  F  F  C  C  C  A  A  A  A  A  A  E  E  E  B  B  D  D
+F  F  F  F  C  C  C  A  A  A  A  A  A  A  E  E  E  B  B  D  D
+F  F  F  F  C  C  C  A  A  A  A  A  A  A  E  E  E  B  B  D  D
+F  F  F  F  C  C  C  A  A  A  A  A  A  E  E  E  B  B  B  D
 */
 ```

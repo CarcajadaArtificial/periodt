@@ -6,6 +6,10 @@
 
 ## Version History
 
+### v0.0.14
+
+- Added compatibility with generic types.
+
 ### v0.0.13
 
 - Returns `string[][]` instead of a `@ktc/tilelib-2d` Grid instance.
