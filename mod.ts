@@ -13,14 +13,32 @@ import { Grid, Position } from "@ktc/tilelib-2d";
  * @param {string[]} chars - An array of characters to be arranged in the grid.
  * @returns {Grid<string>} A grid representing the arranged characters.
  */
-export function periodt(chars: string[]): Grid<string> {
+export function periodt(chars: string[]): string[][] {
   const sortedGroups = sortAndGroupChars(chars);
   const randomizedChars = shuffleGroups(sortedGroups);
   const cols = Math.round(Math.sqrt(randomizedChars.length * 5));
   const rows = Math.round(cols / 3);
   const layout = buildLayout(rows, cols);
   const grid = fillGrid(randomizedChars, layout, cols, rows);
-  return grid;
+  const arrayGrid = compressGrid(grid.grid());
+  return arrayGrid;
+}
+
+function compressGrid(grid: string[][]): string[][] {
+  let lowestCount = Infinity;
+  for (const row of grid) {
+    let count = 0;
+    for (let i = row.length - 1; i >= 0; i--) {
+      if (row[i] === " ") {
+        count++;
+      } else {
+        break;
+      }
+    }
+    lowestCount = Math.min(lowestCount, count);
+  }
+
+  return grid.map((row) => row.slice(0, row.length - lowestCount));
 }
 
 /**
@@ -145,21 +163,19 @@ function fillGrid(
  *
  * @param {Grid<string>} grid - The grid to be logged.
  */
-export function logGrid(grid: Grid<string>, originalCount: number): void {
-  const numRows = grid.height;
-  const totalCols = grid.width;
+export function logGrid(grid: string[][], originalCount: number): void {
   let characterCount = 0;
 
-  for (let r = 0; r < numRows; r++) {
+  console.log(grid);
+
+  for (const row of grid) {
     let rowStr = "";
-    for (let c = 0; c < totalCols; c++) {
-      const pos = new Position(c, r);
-      const char = grid.get(pos) || " ";
-      rowStr += char.toString().padEnd(3, " ");
-      if (char !== " ") characterCount++; // Count non-empty characters
+    for (const char of row) {
+      rowStr += char.padEnd(3, " ");
+      if (char !== " ") characterCount++;
     }
     console.log(rowStr);
   }
 
-  console.log(characterCount === originalCount); // Output true or false
+  console.log(characterCount === originalCount);
 }

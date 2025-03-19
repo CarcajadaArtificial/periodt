@@ -6,6 +6,11 @@
 
 ## Version History
 
+### v0.0.13
+
+- Returns `string[][]` instead of a `@ktc/tilelib-2d` Grid instance.
+- Added compressing routine for removing empty columns.
+
 ### v0.0.12
 
 - Added functions for smaller arrays of characters.
