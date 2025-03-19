@@ -11,8 +11,11 @@
 import { Grid, Position } from "@ktc/tilelib-2d";
 
 /**
- * Adapted function that displays a “periodic table”–like layout of characters,
+ * Displays a "periodic table"–like layout of characters,
  * using a grid system that implements GridBase and uses Position objects.
+ *
+ * @param {string[]} chars - An array of characters to be arranged in the grid.
+ * @returns {Grid<string>} A grid representing the arranged characters.
  */
 export function periodt(chars: string[]): Grid<string> {
   const sortedGroups = sortAndGroupChars(chars);
@@ -24,6 +27,12 @@ export function periodt(chars: string[]): Grid<string> {
   return grid;
 }
 
+/**
+ * Sorts and groups characters into arrays based on their values.
+ *
+ * @param {string[]} chars - An array of characters to be sorted and grouped.
+ * @returns {string[][]} An array of groups, where each group contains identical characters.
+ */
 function sortAndGroupChars(chars: string[]): string[][] {
   const sortedChars: string[] = chars.slice().sort();
   const groups: string[][] = [];
@@ -45,6 +54,12 @@ function sortAndGroupChars(chars: string[]): string[][] {
   return groups;
 }
 
+/**
+ * Shuffles the groups of characters randomly.
+ *
+ * @param {string[][]} groups - An array of groups of characters to be shuffled.
+ * @returns {string[]} A flat array of shuffled characters.
+ */
 function shuffleGroups(groups: string[][]): string[] {
   for (let i = groups.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -53,6 +68,12 @@ function shuffleGroups(groups: string[][]): string[] {
   return groups.flat();
 }
 
+/**
+ * Computes the dimensions of the grid based on the total number of characters.
+ *
+ * @param {number} total - The total number of characters to arrange.
+ * @returns {{ totalCols: number; numRows: number }} An object containing the total columns and number of rows.
+ */
 function computeGridDimensions(
   total: number,
 ): { totalCols: number; numRows: number } {
@@ -63,6 +84,13 @@ function computeGridDimensions(
   return { totalCols, numRows };
 }
 
+/**
+ * Builds the layout for the grid based on the number of rows and columns.
+ *
+ * @param {number} numRows - The number of rows in the grid.
+ * @param {number} totalCols - The total number of columns in the grid.
+ * @returns {boolean[][]} A 2D array representing the layout of the grid.
+ */
 function buildLayout(numRows: number, totalCols: number): boolean[][] {
   const layout: boolean[][] = [];
   if (numRows < 3) {
@@ -80,6 +108,14 @@ function buildLayout(numRows: number, totalCols: number): boolean[][] {
   return layout;
 }
 
+/**
+ * Creates a row layout for the grid with specified counts of filled cells on the left and right.
+ *
+ * @param {number} totalCols - The total number of columns in the grid.
+ * @param {number} leftCount - The number of filled cells on the left side.
+ * @param {number} rightCount - The number of filled cells on the right side.
+ * @returns {boolean[]} An array representing the row layout.
+ */
 function createRowLayout(
   totalCols: number,
   leftCount: number,
@@ -93,6 +129,15 @@ function createRowLayout(
   return row;
 }
 
+/**
+ * Fills the grid with randomized characters based on the layout.
+ *
+ * @param {string[]} randomizedChars - An array of characters to fill the grid.
+ * @param {boolean[][]} layout - The layout of the grid indicating where to place characters.
+ * @param {number} totalCols - The total number of columns in the grid.
+ * @param {number} numRows - The total number of rows in the grid.
+ * @returns {Grid<string>} The filled grid with characters.
+ */
 function fillGrid(
   randomizedChars: string[],
   layout: boolean[][],
@@ -115,6 +160,14 @@ function fillGrid(
   return grid;
 }
 
+/**
+ * Compresses the columns of the grid to remove empty spaces.
+ *
+ * @param {Grid<string>} grid - The grid to be compressed.
+ * @param {boolean[][]} layout - The layout of the grid indicating filled positions.
+ * @param {number} totalCols - The total number of columns in the grid.
+ * @param {number} numRows - The total number of rows in the grid.
+ */
 function compressColumns(
   grid: Grid<string>,
   layout: boolean[][],
@@ -145,7 +198,11 @@ function compressColumns(
   }
 }
 
-// New function to log the grid cells
+/**
+ * Logs the contents of the grid to the console.
+ *
+ * @param {Grid<string>} grid - The grid to be logged.
+ */
 export function logGrid(grid: Grid<string>): void {
   const numRows = grid.height;
   const totalCols = grid.width;

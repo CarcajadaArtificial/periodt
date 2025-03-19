@@ -6,6 +6,10 @@
 
 ## Version History
 
+### v0.0.10
+
+- Added documentation for all functions.
+
 ### v0.0.9
 
 - Added a fix for the GitHub actions publish workflow.
