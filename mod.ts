@@ -27,7 +27,7 @@ const chars = [
  * Adapted function that displays a “periodic table”–like layout of characters,
  * using a grid system that implements GridBase and uses Position objects.
  */
-function periodt(chars: string[]): void {
+export function periodt(chars: string[]): Grid<string> {
   // 1. Sort the characters so that identical ones are together.
   const sortedChars: string[] = chars.slice().sort();
 
@@ -67,7 +67,7 @@ function periodt(chars: string[]): void {
   numRows = numRows < 3 ? 3 : numRows;
 
   // 3. Build a layout (a 2D array of booleans) that marks which grid cells will hold a letter.
-  //    For a U‑shaped layout we define “top region” rows specially:
+  //    For a U‑shaped layout we define "top region" rows specially:
   //    • Row 0: only the first 2 and last 2 cells are active.
   //    • Row 1: only the first 2 and last 4 cells are active.
   //    • Row 2: only the first 5 and last 5 cells are active.
@@ -130,7 +130,7 @@ function periodt(chars: string[]): void {
     }
   }
 
-  // 5. “Compress” each column’s contiguous active segments.
+  // 5. "Compress" each column's contiguous active segments.
   //    For each column, we locate each block of adjacent active cells and shift their letters upward.
   for (let c = 0; c < totalCols; c++) {
     let r = 0;
@@ -159,6 +159,14 @@ function periodt(chars: string[]): void {
   }
 
   // 6. Print the grid row by row (each cell padded to 3 characters for neat alignment).
+  return grid;
+}
+
+// New function to log the grid cells
+export function logGrid(grid: Grid<string>): void {
+  const numRows = grid.height;
+  const totalCols = grid.width;
+
   for (let r = 0; r < numRows; r++) {
     let rowStr = "";
     for (let c = 0; c < totalCols; c++) {
@@ -169,4 +177,6 @@ function periodt(chars: string[]): void {
   }
 }
 
-periodt(chars);
+// Call the periodt function and log the grid
+const gridInstance = periodt(chars);
+logGrid(gridInstance); // Log the grid using the new function

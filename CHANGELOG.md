@@ -11,6 +11,10 @@
 
 ## Version History
 
+### v0.0.7
+
+- Extracted the logging functionality into the `logGrid()` function;
+
 ### v0.0.6
 
 - Added a fix for the GitHub actions publish workflow.
