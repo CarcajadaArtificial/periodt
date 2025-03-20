@@ -20,13 +20,16 @@ export function periodt<T>(
   getGroupingId: (item: T) => string,
   getDefault: () => T,
   silent: boolean = true,
+  random: boolean = false,
 ): T[][] {
   const sortedGroups = sortAndGroupItems(items, getGroupingId);
-  const randomizedItems = shuffleGroups(sortedGroups);
-  const cols = Math.round(Math.sqrt(randomizedItems.length * 5));
+  const orderedItems = random
+    ? shuffleGroups(sortedGroups)
+    : sortedGroups.flat();
+  const cols = Math.round(Math.sqrt(orderedItems.length * 5));
   const rows = Math.round(cols / 3);
   const layout = buildLayout(rows, cols);
-  const grid = fillGrid(randomizedItems, layout, cols, rows, getDefault);
+  const grid = fillGrid(orderedItems, layout, cols, rows, getDefault);
   const arrayGrid = compressGrid(grid.grid(), getDefault);
   if (!silent) logGrid(arrayGrid, items.length, getGroupingId);
   return arrayGrid;
@@ -150,9 +153,9 @@ function createRowLayout(
 }
 
 /**
- * Fills the grid with randomized items based on the layout.
+ * Fills the grid with items based on the layout.
  *
- * @param randomizedItems - A flat array of items to fill the grid.
+ * @param items - A flat array of items to fill the grid.
  * @param layout - The layout of the grid indicating where to place items.
  * @param totalCols - The total number of columns in the grid.
  * @param numRows - The total number of rows in the grid.
@@ -160,7 +163,7 @@ function createRowLayout(
  * @returns The filled grid.
  */
 function fillGrid<T>(
-  randomizedItems: T[],
+  items: T[],
   layout: boolean[][],
   totalCols: number,
   numRows: number,
@@ -174,9 +177,7 @@ function fillGrid<T>(
         const pos = new Position(c, r);
         grid.set(
           pos,
-          pointer < randomizedItems.length
-            ? randomizedItems[pointer++]
-            : getDefault(),
+          pointer < items.length ? items[pointer++] : getDefault(),
         );
       }
     }

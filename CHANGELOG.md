@@ -6,6 +6,10 @@
 
 ## Version History
 
+### v0.0.15
+
+- Added a property that made randomization optional.
+
 ### v0.0.14
 
 - Added compatibility with generic types.
